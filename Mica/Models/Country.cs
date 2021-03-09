@@ -5,9 +5,7 @@ using System.Web;
 
 namespace Mica.Models
 {
-    public class Bank : Parameter
+    public class Country : Parameter
     {
-        public Country Country { get; set; }
-        public int CountryId { get; set; }
     }
 }
