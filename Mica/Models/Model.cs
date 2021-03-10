@@ -6,7 +6,7 @@ using System.Web;
 //Migration commands
 //Update-database -TargetMigration:0
 //Update-database
-//add-migration InitialModel - force
+//add-migration InitialModel -force
 
 namespace Mica.Models
 {
