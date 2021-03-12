@@ -135,9 +135,19 @@ namespace Mica.Migrations
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
+
+            // Country
+            Sql("INSERT INTO Countries (Name) VALUES ('New Zealand')");
+            Sql("INSERT INTO Countries (Name) VALUES ('Australia')");
+
+            // Bank
+            Sql("INSERT Banks (Name, CountryId) SELECT 'ASB', Id FROM Countries WHERE Name = 'New Zealand'");
+            Sql("INSERT Banks (Name, CountryId) SELECT 'ANZ', Id FROM Countries WHERE Name = 'New Zealand'");
+            Sql("INSERT Banks (Name, CountryId) SELECT 'Westpac', Id FROM Countries WHERE Name = 'New Zealand'");
+            Sql("INSERT Banks (Name, CountryId) SELECT 'BNZ', Id FROM Countries WHERE Name = 'New Zealand'");
+
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
