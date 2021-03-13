@@ -2,7 +2,7 @@
 
 namespace Mica.Core.Repositories
 {
-    interface IBankRepository : IRepository<Bank>
+    public interface IBankRepository : IRepository<Bank>
     {
     }
 }

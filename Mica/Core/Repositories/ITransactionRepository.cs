@@ -2,7 +2,7 @@
 
 namespace Mica.Core.Repositories
 {
-    interface ITransactionRepository : IRepository<Transaction>
+    public interface ITransactionRepository : IRepository<Transaction>
     {
     }
 }

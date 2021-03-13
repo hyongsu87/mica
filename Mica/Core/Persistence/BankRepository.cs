@@ -9,9 +9,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Mica.Core.Persistence
 {
-    public class BankRepository : Repository<Bank>
+    public class BankRepository : Repository<Bank>, IBankRepository
     {
-        public BankRepository(IdentityDbContext context)
+        public BankRepository(ApplicationDbContext context)
             : base(context)
         {
         }

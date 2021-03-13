@@ -175,10 +175,12 @@
     <Compile Include="Core\Persistence\BankRepository.cs" />
     <Compile Include="Core\Persistence\Repository.cs" />
     <Compile Include="Core\Persistence\TransactionRepository.cs" />
+    <Compile Include="Core\Persistence\UnitOfWork.cs" />
     <Compile Include="Core\Repositories\IAccountRepository.cs" />
     <Compile Include="Core\Repositories\IBankRepository.cs" />
     <Compile Include="Core\Repositories\IRepository.cs" />
     <Compile Include="Core\Repositories\ITransactionRepository.cs" />
+    <Compile Include="Core\Repositories\IUnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

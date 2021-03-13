@@ -10,7 +10,7 @@ namespace Mica.Core.Persistence
 {
     public class TransactionRepository : Repository<Transaction>, ITransactionRepository
     {
-        public TransactionRepository(IdentityDbContext context)
+        public TransactionRepository(ApplicationDbContext context)
             : base(context)
         {
         }

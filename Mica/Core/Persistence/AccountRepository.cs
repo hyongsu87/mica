@@ -10,7 +10,7 @@ namespace Mica.Core.Persistence
 {
     public class AccountRepository : Repository<Account>, IAccountRepository
     {
-        public AccountRepository(IdentityDbContext context)
+        public AccountRepository(ApplicationDbContext context)
             : base(context)
         {
         }
