@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Mica.Models.Bank>
+@{
+    ViewBag.Title = "Banks Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bank in Model)
+        {
+            <tr>
+                <td>@bank.Id</td>
+                <td>@bank.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

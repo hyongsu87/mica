@@ -171,16 +171,6 @@
     <Compile Include="Controllers\BanksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Core\Persistence\AccountRepository.cs" />
-    <Compile Include="Core\Persistence\BankRepository.cs" />
-    <Compile Include="Core\Persistence\Repository.cs" />
-    <Compile Include="Core\Persistence\TransactionRepository.cs" />
-    <Compile Include="Core\Persistence\UnitOfWork.cs" />
-    <Compile Include="Core\Repositories\IAccountRepository.cs" />
-    <Compile Include="Core\Repositories\IBankRepository.cs" />
-    <Compile Include="Core\Repositories\IRepository.cs" />
-    <Compile Include="Core\Repositories\ITransactionRepository.cs" />
-    <Compile Include="Core\Repositories\IUnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,10 +248,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Banks\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Banks\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
