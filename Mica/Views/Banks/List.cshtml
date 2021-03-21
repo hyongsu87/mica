@@ -4,22 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>View</h2>
+<h2>Banks List</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var bank in Model)
-        {
+<div class="row m-t-100">
+    <table class="table">
+        <thead>
             <tr>
-                <td>@bank.Id</td>
-                <td>@bank.Name</td>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <td scope="col">Country</td>
+                <td scope="col">Action</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var bank in Model)
+            {
+                <tr>
+                    <td>@bank.Id</td>
+                    <td>@bank.Name</td>
+                    <td>@bank.Country.Name</td>
+                    <td>@Html.ActionLink("Details", "Details", "Banks", new { Id = bank.Id }, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
