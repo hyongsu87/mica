@@ -10,40 +10,40 @@ namespace Mica.Migrations
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
-                    })
+                {
+                    Id = c.String(nullable: false, maxLength: 128),
+                    Name = c.String(nullable: false, maxLength: 256),
+                })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
+
             CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
-                    })
+                {
+                    UserId = c.String(nullable: false, maxLength: 128),
+                    RoleId = c.String(nullable: false, maxLength: 128),
+                })
                 .PrimaryKey(t => new { t.UserId, t.RoleId })
                 .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
-            
+
             CreateTable(
                 "dbo.Transactions",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        AccountId = c.Int(nullable: false),
-                        Reference = c.String(),
-                        Amount = c.Double(nullable: false),
-                        Date = c.DateTime(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    AccountId = c.Int(nullable: false),
+                    Reference = c.String(),
+                    Amount = c.Double(nullable: false),
+                    Date = c.DateTime(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Accounts", t => t.AccountId, cascadeDelete: true)
                 .Index(t => t.AccountId);
-            
+
             CreateTable(
                 "dbo.Accounts",
                 c => new
@@ -53,22 +53,24 @@ namespace Mica.Migrations
                         BankId = c.Int(nullable: false),
                         AccountTypeId = c.Int(nullable: false),
                         Balance = c.Double(nullable: false),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 500),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AccountTypes", t => t.AccountTypeId, cascadeDelete: true)
                 .ForeignKey("dbo.Banks", t => t.BankId, cascadeDelete: true)
                 .Index(t => t.BankId)
-                .Index(t => t.AccountTypeId);
+                .Index(t => t.AccountTypeId)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.AccountTypes",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 500),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.Banks",
@@ -76,20 +78,22 @@ namespace Mica.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         CountryId = c.Int(nullable: false),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 500),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Countries", t => t.CountryId, cascadeDelete: true)
-                .Index(t => t.CountryId);
+                .Index(t => t.CountryId)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.Countries",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 500),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -154,30 +158,34 @@ namespace Mica.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Transactions", "AccountId", "dbo.Accounts");
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Accounts", "BankId", "dbo.Banks");
             DropForeignKey("dbo.Banks", "CountryId", "dbo.Countries");
             DropForeignKey("dbo.Accounts", "AccountTypeId", "dbo.AccountTypes");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Banks", new[] { "CountryId" });
-            DropIndex("dbo.Accounts", new[] { "AccountTypeId" });
-            DropIndex("dbo.Accounts", new[] { "BankId" });
             DropIndex("dbo.Transactions", new[] { "AccountId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Countries", new[] { "Name" });
+            DropIndex("dbo.Banks", new[] { "Name" });
+            DropIndex("dbo.Banks", new[] { "CountryId" });
+            DropIndex("dbo.AccountTypes", new[] { "Name" });
+            DropIndex("dbo.Accounts", new[] { "Name" });
+            DropIndex("dbo.Accounts", new[] { "AccountTypeId" });
+            DropIndex("dbo.Accounts", new[] { "BankId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.Transactions");
+            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.AspNetRoles");
             DropTable("dbo.Countries");
             DropTable("dbo.Banks");
             DropTable("dbo.AccountTypes");
             DropTable("dbo.Accounts");
-            DropTable("dbo.Transactions");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetRoles");
         }
     }
 }

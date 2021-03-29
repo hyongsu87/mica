@@ -23,6 +23,7 @@ namespace Mica.Models
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
