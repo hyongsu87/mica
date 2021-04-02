@@ -29,9 +29,9 @@ namespace Mica.Controllers
             return View("List", banks);
         }
 
-        public ActionResult Details(int Id)
+        public ActionResult Details(int id)
         {
-            var bank = _context.Banks.Find(Id);
+            var bank = _context.Banks.Find(id);
             _context.Entry(bank).Reference(b => b.Country).Load(); // explicit loading
 
             return View("Details", bank);
@@ -48,26 +48,74 @@ namespace Mica.Controllers
             return View("Form", viewModel);
         }
 
+        public ActionResult Edit(int id)
+        {
+            var bank = _context.Banks.Find(id);
+            _context.Entry(bank).Reference(b => b.Country).Load(); // explicit loading
+            var countries = _context.Countries.ToList();
+            var viewModel = new FormBanksViewModel
+            {
+                Bank = bank,
+                Countries = countries
+            };
+
+            return View("Form", viewModel);
+        }
+
         [HttpPost]
-        public ActionResult Create(Bank bank)
+        public ActionResult Update(Bank bank)
         {
             try
             {
-                _context.Banks.Add(bank);
+                var bankInDb = _context.Banks.Single(b => b.Id == bank.Id);
+                bankInDb.Name = bank.Name;
+                bankInDb.CountryId = bank.CountryId;
                 _context.SaveChanges();
             }
             catch (System.Data.Entity.Infrastructure.DbUpdateException e)
             {
                 return View("Error", e);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                string exceptiontype = e.InnerException.GetType().FullName;
-                exceptiontype = e.InnerException.InnerException.GetType().FullName;
                 return View("Error", e);
             }
-
             return RedirectToAction("Index", "Banks");
+        }
+
+        [HttpPost]
+        public ActionResult Create(Bank bank)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Banks.Add(bank);
+                    _context.SaveChanges();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException e)
+                {
+                    return View("Error", e);
+                }
+                catch (Exception e)
+                {
+                    //string exceptiontype = e.InnerException.GetType().FullName;
+                    //exceptiontype = e.InnerException.InnerException.GetType().FullName;
+                    return View("Error", e);
+                }
+
+                return RedirectToAction("Index", "Banks");
+
+            }
+
+            var countries = _context.Countries.ToList();
+            var viewModel = new FormBanksViewModel
+            {
+                Bank = bank,
+                Countries = countries
+            };
+
+            return View("Form", viewModel);
         }
     }
 }

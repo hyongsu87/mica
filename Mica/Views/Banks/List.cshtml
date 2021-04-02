@@ -23,9 +23,10 @@
                     <td>@bank.Id</td>
                     <td>@bank.Name</td>
                     <td>@bank.Country.Name</td>
-                    <td>@Html.ActionLink("Details", "Details", "Banks", new { Id = bank.Id }, null)</td>
+                    <td>@Html.ActionLink("Edit", "Edit", "Banks", new { Id = bank.Id }, null) / @Html.ActionLink("Details", "Details", "Banks", new { Id = bank.Id }, null)</td>
                 </tr>
             }
         </tbody>
     </table>
+    <input type="button" class="btn btn-primary" value="Add Bank" onclick="location.href='@Url.Action("New", "Banks")'" />
 </div>
