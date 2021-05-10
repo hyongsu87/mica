@@ -17,6 +17,12 @@ namespace Mica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        public BanksController(ApplicationDbContext dbContext)
+        {
+            _context = dbContext;
+        }
+
         protected override void Dispose(bool disposing)
         {
             _context.Dispose();
@@ -26,6 +32,12 @@ namespace Mica.Controllers
         public ActionResult Index()
         {
             var banks = _context.Banks.Include(b => b.Country).ToList(); // eager loading
+            return View("List", banks);
+        }
+
+        public ActionResult GetBanks()
+        {
+            var banks = _context.Banks.ToList(); // eager loading
             return View("List", banks);
         }
 

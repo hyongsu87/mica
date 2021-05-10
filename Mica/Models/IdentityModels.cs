@@ -21,7 +21,7 @@ namespace Mica.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Bank> Banks { get; set; }
+        public virtual DbSet<Bank> Banks { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Country> Countries { get; set; }
 
