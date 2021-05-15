@@ -20,10 +20,10 @@ namespace Mica.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Bank> Banks { get; set; }
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
