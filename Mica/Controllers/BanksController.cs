@@ -129,5 +129,24 @@ namespace Mica.Controllers
 
             return View("Form", viewModel);
         }
+
+        public ActionResult Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var bankInDb = _context.Banks.Single(b => b.Id == id);
+                    _context.Banks.Remove(bankInDb);
+                    _context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return View("Error", e);
+                }
+            }
+
+            return RedirectToAction("Index", "Banks");
+        }
     }
 }

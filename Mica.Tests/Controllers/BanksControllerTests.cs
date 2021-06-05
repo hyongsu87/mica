@@ -122,6 +122,38 @@ namespace Mica.Tests.Controllers
             // Assert
             Assert.IsTrue(!diff.Any());
         }
+
+        [Test]
+        public void Delete_Bank_DeletesBank()
+        {
+            List<Bank> banks = new List<Bank>()
+            {
+                new Bank() {Id = 1, Name = "ANZ", CountryId = 1},
+                new Bank() {Id = 2, Name = "BNZ", CountryId = 1},
+                new Bank() {Id = 3, Name = "NAB", CountryId = 2}
+            };
+
+            DbSet<Bank> mockSet = TestHelper.GetQueryableMockDbSet(banks);
+
+            var mockContext = new Mock<ApplicationDbContext>();
+            mockContext.Setup(m => m.Banks).Returns(mockSet);
+
+            mockContext.Setup(m => m.SaveChanges()).Returns(1);
+
+            // Act
+            var controller = new BanksController(mockContext.Object);
+
+            var expectedData = banks;
+            Bank bankToRemove = expectedData.Single(b => b.Id == 1);
+            expectedData.Remove(bankToRemove);
+
+            controller.Delete(bankToRemove.Id);
+
+            var diff = expectedData.Except(banks);
+
+            // Assert
+            Assert.IsTrue(!diff.Any());
+        }
     }
 
 }
