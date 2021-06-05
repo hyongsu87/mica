@@ -34,13 +34,13 @@ namespace Mica.Controllers
             var banks = _context.Banks.Include(b => b.Country).ToList(); // eager loading
             return View("List", banks);
         }
-
+        /*
         public ActionResult GetBanks()
         {
             var banks = _context.Banks.ToList(); // eager loading
             return View("List", banks);
         }
-
+        */
         public ActionResult Details(int id)
         {
             var bank = _context.Banks.Find(id);

@@ -14,7 +14,7 @@ using NUnit.Framework.Internal;
 using Moq;
 
 
-namespace Mica.Tests
+namespace Mica.Tests.Controllers
 {
     [TestFixture]
     public class BanksControllerTests
@@ -102,6 +102,40 @@ namespace Mica.Tests
             // Assert
             Assert.IsTrue(!diff.Any());
 
+        }
+
+        [Test]
+        public void List_Bank_ReturnsListOfBanks()
+        {
+            List<Bank> banks = new List<Bank>()
+            {
+                new Bank() {Id = 1, Name = "ANZ", CountryId = 1},
+                new Bank() {Id = 2, Name = "BNZ", CountryId = 1},
+                new Bank() {Id = 3, Name = "NAB", CountryId = 2}
+            };
+
+            var data = banks.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Bank>>();
+            mockSet.As<IQueryable<Bank>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<Bank>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<Bank>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<Bank>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            mockSet.Setup(x => x.Include(It.IsAny<String>())).Returns(mockSet.Object);
+
+            var mockContext = new Mock<ApplicationDbContext>();
+            mockContext.Setup(m => m.Banks).Returns(mockSet.Object);
+
+            mockContext.Setup(m => m.SaveChanges()).Returns(1);
+
+            // Act
+            var controller = new BanksController(mockContext.Object);
+            ViewResult result = (ViewResult) controller.Index();
+            List<Bank> resultBanks = (List<Bank>) result.Model;
+            var diff = data.Except(resultBanks);
+
+            // Assert
+            Assert.IsTrue(!diff.Any());
         }
     }
 
