@@ -7,11 +7,13 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Mica.Controllers;
 using Mica.Models;
+using Mica.Tests.Helper;
 using Mica.ViewModel;
 using Microsoft.AspNet.Identity.EntityFramework;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using Moq;
+using Mica.Tests.Helper;
 
 
 namespace Mica.Tests.Controllers
@@ -45,16 +47,10 @@ namespace Mica.Tests.Controllers
                 new Bank() {Id = 1, Name = "ANZ", CountryId = 1}
             };
 
-            var data = banks.AsQueryable();
-
-            var mockSet = new Mock<DbSet<Bank>>();
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            DbSet<Bank> mockSet = TestHelper.GetQueryableMockDbSet(banks);
 
             var mockContext = new Mock<ApplicationDbContext>();
-            mockContext.Setup(m => m.Banks).Returns(mockSet.Object);
+            mockContext.Setup(m => m.Banks).Returns(mockSet);
 
             mockContext.Setup(m => m.SaveChanges()).Returns(1);
 
@@ -77,17 +73,11 @@ namespace Mica.Tests.Controllers
                 new Country() {Id = 3, Name = "United States of America"}
             };
 
-            var data = countries.AsQueryable();
-
-            var mockSet = new Mock<DbSet<Country>>();
-            mockSet.As<IQueryable<Country>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Country>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Country>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Country>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            DbSet<Country> mockSet = TestHelper.GetQueryableMockDbSet(countries);
 
             var mockContext = new Mock<ApplicationDbContext>();
 
-            mockContext.Setup(m => m.Countries).Returns(mockSet.Object);
+            mockContext.Setup(m => m.Countries).Returns(mockSet);
 
             mockContext.Setup(m => m.SaveChanges()).Returns(1);
 
@@ -97,7 +87,7 @@ namespace Mica.Tests.Controllers
             var formViewModel = (FormBanksViewModel) result.Model;
             var resultCountryList = formViewModel.Countries;
 
-            var diff = data.Except(resultCountryList);
+            var diff = countries.Except(resultCountryList);
 
             // Assert
             Assert.IsTrue(!diff.Any());
@@ -114,17 +104,12 @@ namespace Mica.Tests.Controllers
                 new Bank() {Id = 3, Name = "NAB", CountryId = 2}
             };
 
+            DbSet<Bank> mockSet = TestHelper.GetQueryableMockDbSet(banks);
+
             var data = banks.AsQueryable();
 
-            var mockSet = new Mock<DbSet<Bank>>();
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Bank>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mockSet.Setup(x => x.Include(It.IsAny<String>())).Returns(mockSet.Object);
-
             var mockContext = new Mock<ApplicationDbContext>();
-            mockContext.Setup(m => m.Banks).Returns(mockSet.Object);
+            mockContext.Setup(m => m.Banks).Returns(mockSet);
 
             mockContext.Setup(m => m.SaveChanges()).Returns(1);
 
