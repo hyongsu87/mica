@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Mica.Controllers;
 using Mica.Models;
 using Mica.Tests.Helper;
 using Mica.ViewModel;
-using Microsoft.AspNet.Identity.EntityFramework;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using Moq;
-using Mica.Tests.Helper;
 
 
 namespace Mica.Tests.Controllers
