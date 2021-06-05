@@ -1,0 +1,34 @@
+﻿@model Mica.ViewModel.FormBanksViewModel
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Bank</h2>
+
+@{ 
+    string action = "Update";
+    if(Model.Bank?.Id == null || Model.Bank?.Id == 0)
+    {
+        action = "Create";
+    }
+}
+
+@using (Html.BeginForm(action, "Banks"))
+{
+    <div class="form-group">
+        @Html.LabelFor(b => b.Bank.Name)
+        @Html.TextBoxFor(b => b.Bank.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Bank.Name, null, new { @class = "form-text text-muted text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(b => b.Bank.CountryId, "Country")
+        @Html.DropDownListFor(b => b.Bank.CountryId, new SelectList(Model.Countries, "Id", "Name"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Bank.CountryId, null, new { @class = "form-text text-muted text-danger" })
+    </div>
+    if(action == "Update")
+    {
+        @Html.HiddenFor(b => b.Bank.Id);
+    }
+    <button type="submit" class="btn btn-primary">Save</button>
+}

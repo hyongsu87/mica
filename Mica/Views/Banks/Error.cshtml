@@ -1,0 +1,11 @@
+﻿@model Exception
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Error</h2>
+
+<h3>Encountered error: @Model.Message</h3>
+
+<input type="button" value="Return to Banks Page" onclick="window.location='@Url.Action("Index", "Banks")'" />

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Mica.Models.Bank>
+@{
+    ViewBag.Title = "Banks Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Banks List</h2>
+
+<div class="row m-t-100">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <td scope="col">Country</td>
+                <td scope="col">Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bank in Model)
+            {
+                <tr>
+                    <td>@bank.Name</td>
+                    <td>@bank.Country.Name</td>
+                    <td>@Html.ActionLink("Edit", "Edit", "Banks", new { Id = bank.Id }, null) / @Html.ActionLink("Details", "Details", "Banks", new { Id = bank.Id }, null) / @Html.ActionLink("Delete", "Delete", "Banks", new { Id = bank.Id }, new {onclick = "return confirm('Are you sure you want to delete bank: " + @bank.Name + "');"})</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="button" class="btn btn-primary" value="Add Bank" onclick="location.href='@Url.Action("New", "Banks")'" />
+</div>

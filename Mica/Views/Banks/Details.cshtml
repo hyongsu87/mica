@@ -1,0 +1,30 @@
+﻿@model Mica.Models.Bank
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="row">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Id</td>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td>@Model.Country.Name</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <p>@Html.ActionLink("Back to Banks List Page", "List", "Banks")</p>
+</div>
